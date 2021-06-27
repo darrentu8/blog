@@ -2,25 +2,27 @@
 # Must be the same as `author` in `_config.yml`.
 # Change `author1` to your shortname.
 author1:
-  name:              <firstname> <lastname>
-  email:             <mail@domain.tld>
+  name:              Darren Tu
+  email:             darrentu8@gmail.com
 
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
   about:             |
-    Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-    sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-    Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+    1. 9年的網站開發經驗，擅長產品開發、UIUX介面。
+    2. 電子商務、媒體健康類網頁APP開發。
+    3. 與產品團隊、設計團隊密切合作良好溝通協調能力。
+    4. 熟練 MVC / MVVM Pattern 前後分離架構。
+    5. Sass / SCSS 模組化，npm/webpack 等構建工具，Git 協同開發流程。
+    6. 分析客戶數據，市場信息和競爭製定營銷策略。
     
-    Open `_data/authors.yml` to edit this text.
-
+    
   # This photo will be used in the about section
   picture:
-    path:            https://placehold.it/128x128
+    path:            /assets/img/avatar.jpg
     # srcset is optional, but can be used to provide higher res versions for retina displays
     srcset:
-      1x:            https://placehold.it/128x128
-      2x:            https://placehold.it/256x256
+      1x:            /assets/img/avatar.jpg
+      2x:            /assets/img/avatar.jpg
 
   # Social media icons in sidebar
   # Comment/uncommet to show/hide
