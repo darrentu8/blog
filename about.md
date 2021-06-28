@@ -7,7 +7,7 @@ description: >
 hide_description: true
 ---
 
-# Frontend Engineer－前端設計工程師
+# Frontend Engineer－前端工程師
 
 <!--author-->
 <!-- ![Screenshot](assets/img/blog/hydejack-9.jpg){:.lead width="1920" height="1080" loading="lazy"}
