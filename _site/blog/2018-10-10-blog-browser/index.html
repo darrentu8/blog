@@ -1,0 +1,1071 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+
+
+
+
+
+
+
+
+<head>
+  
+
+
+
+
+  <meta name="robots" content="noindex">
+
+
+
+  
+    
+<!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>web工程師應該要知道瀏覽器架構演變及渲染機制 | Darren</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="web工程師應該要知道瀏覽器架構演變及渲染機制" />
+<meta name="author" content="Darren Tu" />
+<meta property="og:locale" content="zh_TW" />
+<meta name="description" content="「在未來，瀏覽器會變得越來越強，以後我們可以在瀏覽器做越來越多事。」" />
+<meta property="og:description" content="「在未來，瀏覽器會變得越來越強，以後我們可以在瀏覽器做越來越多事。」" />
+<link rel="canonical" href="https://darrentu8.github.io//blog/blog/2018-10-10-blog-browser/" />
+<meta property="og:url" content="https://darrentu8.github.io//blog/blog/2018-10-10-blog-browser/" />
+<meta property="og:site_name" content="Darren" />
+<meta property="og:image" content="https://img.technews.tw/wp-content/uploads/2017/12/29164436/browsers-1265309_1280.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2018-10-10T00:00:00+08:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://img.technews.tw/wp-content/uploads/2017/12/29164436/browsers-1265309_1280.png" />
+<meta property="twitter:title" content="web工程師應該要知道瀏覽器架構演變及渲染機制" />
+<script type="application/ld+json">
+{"image":"https://img.technews.tw/wp-content/uploads/2017/12/29164436/browsers-1265309_1280.png","headline":"web工程師應該要知道瀏覽器架構演變及渲染機制","dateModified":"2021-07-09T22:59:41+08:00","datePublished":"2018-10-10T00:00:00+08:00","@type":"BlogPosting","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://darrentu8.github.io//blog/assets/img/logo.png"},"name":"Darren Tu"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://darrentu8.github.io//blog/blog/2018-10-10-blog-browser/"},"description":"「在未來，瀏覽器會變得越來越強，以後我們可以在瀏覽器做越來越多事。」","url":"https://darrentu8.github.io//blog/blog/2018-10-10-blog-browser/","author":{"@type":"Person","name":"Darren Tu"},"@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+
+  
+
+  
+
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta http-equiv="x-ua-compatible" content="ie=edge">
+
+<meta name="mobile-web-app-capable" content="yes">
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Darren">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+
+<meta name="application-name" content="Darren">
+
+
+  <meta name="theme-color" content="#ccc">
+
+
+<meta name="generator" content="Hydejack v9.1.4" />
+
+
+<link rel="alternate" href="https://darrentu8.github.io//blog/blog/2018-10-10-blog-browser/" hreflang="zh-tw">
+
+<link type="application/atom+xml" rel="alternate" href="https://darrentu8.github.io//blog/feed.xml" title="Darren" />
+
+
+<link rel="shortcut icon"    href="/blog/assets/icons/favicon.ico">
+<link rel="apple-touch-icon" href="/blog/assets/icons/icon-192x192.png">
+
+<link rel="manifest" href="/blog/assets/site.webmanifest">
+
+<link rel="dns-prefetch" href="https://fonts.googleapis.com"><link rel="dns-prefetch" href="https://fonts.gstatic.com">
+
+
+
+<link rel="preload" href="/blog/assets/img/swipe.svg" as="image" id="_hrefSwipeSVG">
+<link rel="stylesheet" href="https://unpkg.com/applause-button/dist/applause-button.css">
+
+
+
+
+
+
+
+<script>!function(r,c){"use strict";function a(e,t,n,o){e.addEventListener?e.addEventListener(t,n,o):e.attachEvent?e.attachEvent("on"+t,n):e["on"+t]=n}r.loadJS=function(e,t){var n=c.createElement("script");n.src=e,t&&a(n,"load",t,{once:!0});t=c.scripts[0];return t.parentNode.insertBefore(n,t),n},r._loaded=!1,r.loadJSDeferred=function(e,t){var n=c.createElement("script");function o(){r._loaded=!0,t&&a(n,"load",t,{once:!0});var e=c.scripts[0];e.parentNode.insertBefore(n,e)}return n.src=e,r._loaded?o():a(r,"load",o,{once:!0}),n},r.setRel=r.setRelStylesheet=function(e){a(c.getElementById(e),"load",function(){this.rel="stylesheet"},{once:!0})}}(window,document);
+!function(a){"use strict";var b=function(b,c,d){function e(a){return h.body?a():void setTimeout(function(){e(a)})}function f(){i.addEventListener&&i.removeEventListener("load",f),i.media=d||"all"}var g,h=a.document,i=h.createElement("link");if(c)g=c;else{var j=(h.body||h.getElementsByTagName("head")[0]).childNodes;g=j[j.length-1]}var k=h.styleSheets;i.rel="stylesheet",i.href=b,i.media="only x",e(function(){g.parentNode.insertBefore(i,c?g:g.nextSibling)});var l=function(a){for(var b=i.href,c=k.length;c--;)if(k[c].href===b)return a();setTimeout(function(){l(a)})};return i.addEventListener&&i.addEventListener("load",f),i.onloadcssdefined=l,l(f),i};"undefined"!=typeof exports?exports.loadCSS=b:a.loadCSS=b}("undefined"!=typeof global?global:this);
+!function(a){if(a.loadCSS){var b=loadCSS.relpreload={};if(b.support=function(){try{return a.document.createElement("link").relList.supports("preload")}catch(b){return!1}},b.poly=function(){for(var b=a.document.getElementsByTagName("link"),c=0;c<b.length;c++){var d=b[c];"preload"===d.rel&&"style"===d.getAttribute("as")&&(a.loadCSS(d.href,d,d.getAttribute("media")),d.rel=null)}},!b.support()){b.poly();var c=a.setInterval(b.poly,300);a.addEventListener&&a.addEventListener("load",function(){b.poly(),a.clearInterval(c)}),a.attachEvent&&a.attachEvent("onload",function(){a.clearInterval(c)})}}}(this);
+!function(w) {
+  w._baseURL = '/blog/';
+  w._publicPath = '/blog/assets/js/';
+  w._noPushState = false;
+  w._noDrawer = false;
+  w._noNavbar = false;
+  w._noToc = false;
+  w._noSearch = false;
+  w._search = {
+    DATA_URL: '/blog/assets/sitedata.json?no-cache',
+    STORAGE_KEY: 'mini-search/blog/',
+    INDEX_KEY: 'index--2021-07-09T23:15:11+08:00',
+  };
+  w._clapButton = true;
+}(window);</script>
+
+
+<script async src="/blog/assets/bower_components/MathJax/es5/tex-mml-chtml.js" id="_MathJax"></script>
+
+
+<!--[if gt IE 8]><!---->
+
+  
+
+
+
+
+<link rel="stylesheet" href="/blog/assets/css/hydejack-9.1.4.css" id="_stylePreload">
+<link rel="stylesheet" href="/blog/assets/icomoon/style.css" id="_iconsPreload">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto+Slab:700%7CNoto+Sans:400,400i,700,700i&display=swap" id="_fontsPreload">
+
+
+
+  <style id="_pageStyle">
+
+html{--accent-color: #ccc;--accent-color-faded: rgba(204,204,204,0.5);--accent-color-highlight: rgba(204,204,204,0.1);--accent-color-darkened: #b9b9b9;--theme-color: #ccc}
+
+</style>
+
+
+<!--<![endif]-->
+
+
+<!--
+Code used for embedding Gumroad on the Hydejack Site. 
+Left here for reference, feel free to delete.
+-->
+<link rel="dns-prefetch" href="https://assets.gumroad.com">
+<script>window.GET_CLAPS_API = 'https://worker.getclaps.dev'</script>
+<script type="module">
+  const ppiData = window._ppiData = fetch('https://hydejack-ppi.qwtel.workers.dev', { mode: 'cors'}).then(res => res.json()).catch(() => ({}));
+  const promisify = f => x => new Promise(r => f(x).addEventListener('load', r));
+  const loadJS = promisify(window.loadJS);
+  {
+    let p;
+    document.querySelector('hy-push-state').addEventListener('load', () => {
+      const io = new IntersectionObserver(async (entries) => {
+        if (entries.some(x => x.isIntersecting)) {
+          p = p || loadJS('https://gumroad.com/js/gumroad-embed.js');
+          const [{ code }] = await Promise.all([ppiData, p]);
+          document.querySelectorAll('.gumroad-product-embed').forEach(el => { 
+            if (!el.dataset.gumroadParams) {
+              el.dataset.gumroadParams = 'offer_code=' + (code || 'qr0tw8m');
+            }
+          });
+          if (!window.GumroadEmbed) {
+            await new Promise(function check1(res) {
+              if ('createGumroadEmbed' in window) res(window.createGumroadEmbed());
+              else setTimeout(() => check1(res), 200);
+            });
+          }
+          await new Promise(function check2(res) {
+            if ('GumroadEmbed' in window) res(GumroadEmbed.reload());
+            else setTimeout(() => check2(res), 200);
+          });
+        }
+      }, { rootMargin: '1440px' });
+      document.querySelectorAll('.gumroad-product-embed').forEach(el => io.observe(el));
+    });
+  }
+  {
+    let p;
+    document.querySelector('hy-push-state').addEventListener('load', () => {
+      const io = new IntersectionObserver(async (entries) => {
+        if (entries.some(x => x.isIntersecting)) {
+          p = p || loadJS('https://gumroad.com/js/gumroad.js');
+          const [{ code }] = await Promise.all([ppiData, p]);
+          if (code) {
+            document.querySelectorAll('.gumroad-button').forEach(el => { 
+              if (!el.href.endsWith(code)) {
+                el.href = el.href + '/' + (code || 'qr0tw8m');
+              }
+            });
+          }
+          if (!window.GumroadOverlay) {
+            await new Promise(function check(res) {
+              if ('createGumroadOverlay' in window) res(window.createGumroadOverlay());
+              else setTimeout(() => check(res), 200);
+            });
+          }
+        }
+      }, { rootMargin: '300px' });
+      document.querySelectorAll('.gumroad-button').forEach(el => io.observe(el));
+    });
+  }
+</script>
+
+
+</head>
+
+<body class="no-break-layout">
+  
+
+
+<hy-push-state
+  id="_pushState"
+  replace-selector="#_main"
+  link-selector="a[href]:not([href^='/blog/assets/']):not(.external):not(.no-push-state)"
+  script-selector="script"
+  duration="500"
+  hashchange
+>
+  
+  
+  <div id="_navbar" class="navbar fixed-top">
+  <div class="content">
+    <span class="sr-only">Jump to:</span>
+    <div class="nav-btn-bar">
+      <a id="_menu" class="nav-btn no-hover" href="#_drawer--opened">
+        <span class="sr-only">Navigation</span>
+        <span class="icon-menu"></span>
+      </a>
+      <div class="nav-span"></div>
+    </div>
+  </div>
+</div>
+<hr class="sr-only" hidden />
+
+  <main
+  id="_main"
+  class="content layout-post"
+  role="main"
+>
+  <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+    <li><a href="/blog/">home</a></li>
+    
+      <li>
+      
+        <span>/</span>
+        
+        
+        <a href="/blog/blog/">blog</a>
+      
+      </li>
+    
+      <li>
+      
+        <span>/</span>
+        <span>2018-10-10-blog-browser</span>
+      
+      </li>
+    
+  
+</ul></nav>
+  
+
+
+
+
+
+
+
+
+
+
+<article id="post-blog-blog-browser" class="page post mb6" role="article">
+  <header>
+    <h1 class="post-title flip-project-title">
+      
+        web工程師應該要知道瀏覽器架構演變及渲染機制
+      
+    </h1>
+
+    <div class="post-date">
+      
+      <span class="ellipsis mr1">
+        <time datetime="2018-10-10T00:00:00+08:00">10 Oct 2018</time> in <span>Blog</span> 
+      </span>
+      
+        
+          
+          
+          
+            
+            
+            <span class="ellipsis" data-tippy-content="Last modified at: 2021-07-09">
+              <span class="sr-only">Last modified at:</span>
+              <span class="icon-history"></span>
+              <time datetime="2021-07-09T22:59:41+08:00">2021-07-09</time>
+            </span>
+          
+        
+      
+    </div>
+
+    
+    
+      
+        <div class="img-wrapper lead aspect-ratio sixteen-nine flip-project-img">
+          
+
+
+<img
+  
+    src="https://img.technews.tw/wp-content/uploads/2017/12/29164436/browsers-1265309_1280.png"
+  
+  alt="web工程師應該要知道瀏覽器架構演變及渲染機制"
+  
+  
+  width="864"
+  height="486"
+  loading="lazy"
+/>
+
+        </div>
+      
+      
+    
+
+    
+
+
+
+  
+
+
+  </header>
+
+  
+    <blockquote>
+  <p>「在未來，瀏覽器會變得越來越強，以後我們可以在瀏覽器做越來越多事。」</p>
+</blockquote>
+
+<p>身為常與瀏覽器共舞的 Web 工程師，尤其是 Frontend Engineer，如果瀏覽器突然消失了，應該也等同於要失去飯碗了 😂 而上面這句話我想大家應該或多或少都有聽過，不過你知道所謂變得越來越強是指什麼嗎？瀏覽器又是為什麼會變得更強呢？透過這篇文章，我想淺淺得說明瀏覽器的架構演進史，從過去，到現在，再看向未來。身為 Web 工程師，瀏覽器的關係與我們密不可分，但除了學會使用它以外，如果能去理解背後的運作模式，我認為是百利而無一害的，除了學會根據背後運作模式去建構更好的 web 應用以外，也可以提早洞察到未來可能的發展，領先其他人一步去探索更多可能性。<br />
+這篇文章會透過簡易系統架構的角度去看瀏覽器的演進，process 程序（對岸用語為進程），thread 執行緒（對岸用語為線程）是兩個必備的知識點，如果還不太了解兩者概念的讀者可以參考我之前的文章。<br /></p>
+
+<h2 id="舊石器時代single-process-瀏覽器時期">舊石器時代：Single Process 瀏覽器時期</h2>
+<p>首先這邊假設各位讀者都已經了解 Process 與 Thread 的基本概念。<br />
+其實在 2007 年以前，市面上的瀏覽器基本上都是 Single Process 單一程序的架構的。<br /></p>
+
+<p><img src="https://miro.medium.com/max/3160/1*aCbpvQk_djR_W8sxzF8ODw.png" alt="" /></p>
+
+<p>這代表著瀏覽器的所有功能模組都是運行在同一個 Process 裡的，所謂的功能模組指的是 JavaScript 執行環境、網路、瀏覽器擴充功能（插件）、渲染引擎…等，由上面的架構圖也可以看出不同的功能模組可能運行在不同的 thread 中，然而這種架構衍伸出了幾個明顯的問題：<br />
+不穩定性<br />
+不流暢性<br />
+安全性問題<br />
+不穩定性<br /></p>
+
+<p>簡單來說就是，單一程序的瀏覽器中，其中一個功能模組如果出問題壞掉了，會導致整個瀏覽器的崩潰。早期的瀏覽器有很多功能並沒有原生支援，例如影片播放、遊戲引擎…等，需要透過插件 (Plugin) 來協助實現，但偏偏 Plugin 又很容易出問題，當插件運行崩壞時，也會導致瀏覽器的崩壞。JavaScript 執行環境也是一樣的道理，如果程式碼過於複雜或是效能炸裂，也會導致渲染引擎的崩壞，進而導致整個瀏覽器的崩壞。<br />
+不流暢性<br />
+從上面的 Single Process Browser 架構圖可以看到，有一個叫 Page Thread 的執行緒，它的工作包山包海，從頁面的渲染、頁面的顯示、JavaScript 的執行環境還有插件的運行都是它的職責。不過由於是單一執行緒，意味著同一時刻只有一個功能可以執行，所以如果遇到一段跑很慢或是無限循環的 JS 程式碼，例如：<br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>function stupidFunc() {
+  while(true) {
+   console.log('HI');
+  }
+};
+stupidFunc();
+</code></pre></div></div>
+
+<p>在 Single Process 的瀏覽器架構裡，上面這段無限循環的程式碼會獨佔整個 thread 的資源，導致其他模組永遠沒有機會被執行到，因為瀏覽器所有的頁面都是靠這個執行緒運行的，所以這樣的狀況會讓整個瀏覽器失去反應或是變得卡頓。<br />
+另外相信大家也知道，記憶體的空間也是影響瀏覽器效能的重大因素，而 Single Process 架構的瀏覽器有一個明顯的缺點就是往往不能完全地回收記憶體，導致使用時間越久記憶體佔用就越來越高，導致頁面慢慢變得不流暢與卡頓。<br /></p>
+
+<h2 id="安全性問題">安全性問題</h2>
+<p>因為我本身對資安並不是那麼的了解，所以這邊只能簡單說明可能發生的狀況。<br />
+以往 Single Process 架構的瀏覽器沒有實作合理的安全環境（例如等等會提到的 sandbox），因此透過 Plugins 或是 Script 是有可能可以獲取系統資源與權限的，而這個狀況不需多說，自然會衍伸出許多安全性的問題，注入病毒、盜竊帳號密碼都是可能發生的資安攻擊。<br />
+以上就是三個 Single Process Browser 最大的缺陷，如果隨便一個頁面壞掉會使整個瀏覽器崩潰的話，確實蠻恐怖的，萬一其中一個頁面是你花了一個星期撰寫，要給老闆看的企業報告，你應該也會崩潰吧 😂 所幸現在的我們已經不需要受到這種瀏覽器架構的荼毒與威脅，讓我們接著看看下個階段瀏覽器的架構做出了什麼樣的改變吧！<br /></p>
+
+<h2 id="新石器時代multi-processes-瀏覽器時期">新石器時代：Multi Processes 瀏覽器時期</h2>
+<p>接下來的架構我都會以 Chrome 這個瀏覽器的架構來說明，並不是單純因為它是我最喜歡的瀏覽器（雖然是事實沒錯 😂），更是因為它是第一個提出 Multi Processes 多程序架構的瀏覽器。Chrome 在 2008 年發表了 Multi Processes 的架構，當時的瀏覽器架構圖大致上如下:<br />
+<img src="https://miro.medium.com/max/700/1*3Tx4AkFEIG700D4--KBBpQ.png" alt="" /></p>
+
+<p>這個版本的架構與上一個 Single Process 的架構差別在於獨立出了 Renderer Process 與 Plugins Process，也就是渲染程序與插件程序，不同 Processes 間需要通過 IPC 來溝通（也就是上圖的虛線），Plugins Process 顧名思義就是專門運行瀏覽器插件、外掛的程序，Renderer Process 又被稱作渲染引擎，主要負責頁面的渲染，包含 Parse、Render、JS 的執行等工作，關於現今瀏覽器渲染引擎的運作機制，稍後會有更加詳細的介紹。<br /></p>
+
+<h3 id="接著來看看改成這樣的架構後是否有效地解決了-single-process-瀏覽器的三大問題">接著來看看改成這樣的架構後，是否有效地解決了 Single Process 瀏覽器的三大問題：<br /></h3>
+
+<p>-<strong>不穩定性的問題：</strong> 因為各個 Process 是互相隔離的，也就是說如果 Plugin 崩壞，或是頁面失去響應了，只會影響到它們當前所運行的 Process，並不會像以前一樣牽一髮而動全身，導致整個瀏覽器的癱瘓，因此有效解決了不穩定性的問題。<br /></p>
+
+<p>-<strong>不流暢性的問題：</strong> 這個架構下拆分出 Renderer Process 的特點是，瀏覽器中每一個 Tab 都會運行在獨立的 Renderer Process 上。雖然遇到上面無限循環的 Script，ㄧ樣會造成頁面失去反應，不過現在會影響的就只有當前的頁面（Tab）而已，其他的頁面因為是運行在不同的 Process，因此仍能正常運作。再來是前面提到記憶體有可能無法完全回收或發生 memory leak 的問題，儘管現在頁面失去反應了，當你關閉它時，整個 Renderer Process 也會被關閉，這個 Process 所佔用的記憶體會被系統完整的收回，解決了過往 memory leak 的問題。因此這樣看下來，不流暢性的問題也得到了大大的改善。<br /></p>
+
+<p>-<strong>不安全性的問題：</strong> 在 Multi Processes 架構下的瀏覽器，不僅獨立出了不同的程序，還引用了 「Sandbox 沙盒」的機制，使 Plugin Process 與 Renderer Process 運行在沙盒中。（可以把 Sandbox 想像成一個安全的隔離環境，在裡面運行的程式無法獲取外部的數據，放到瀏覽器中，就是指無法獲得系統的資源，想當然，連讀取都禁止了，寫入當然也是禁止的），即使有惡意的程式碼，也只會運行在 Sandbox 中，無法突破 Sandbox 影響外部瀏覽器的系統，這也就解決了之前提到可能會發生的一些資安問題。<br /></p>
+
+<h2 id="現代更加豐富的-multi-processes-瀏覽器架構">現代：更加豐富的 Multi Processes 瀏覽器架構</h2>
+
+<p>（可能有讀者會疑惑，怎麼從新石器時代馬上就跳到現代來了 😂，這點就放過我不要計較了吧 🤣）<br />
+大家都知道 Chrome 是 Google 開發的，進化的速度也是非常快的，現在的 Chrome 瀏覽器仍然以多程序架構為基礎，不過獨立出了更多的 Processes，大致上如以下的架構圖：<br />
+<img src="https://miro.medium.com/max/700/1*bmUbnAhxH9C7raz-bwEOxw.png" alt="" /></p>
+
+<p>從上圖可以看出，原本運行於 Browser Process 中的網路資源操作與 GPU 操作變成 Network Process（主要負責網路資源載入） 與 GPU Process（負責一些頁面的繪製與運算） 被獨立了出來，而獨立出 Process 的好處也在稍早提過了，除了解決不穩定性、不安全性與不流暢性以外，也可以擁抱 process parallel 運行帶來的性能提升。<br />
+那麼方便的話，我把所有操作都獨立出一個 Process 不就好了？<br />
+這個思考方向並沒有錯，不過想擁有收穫總是得付出一些成本或代價，獨立出更多 Processes 的缺點主要有：<br />
+更高的記憶體佔用<br />
+系統架構會變得更加複雜（要考慮不同 process 間的溝通）<br />
+因此這其實是個非常複雜的問題，也是 Chrome 團隊一直在優化的方向。<br />
+未來世界：SOA 服務導向架構瀏覽器<br />
+面對上述高記憶體佔用與架構複雜的問題，Chrome 團隊非常努力想找到一個彈性的解決方案，在 2016 年 chrome 提出了以 SOA (Services Oriented Architecture) 服務導向架構為基礎的新架構：<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*r05OaXt93q9ZcWo2mV1dmw.png" alt="" /></p>
+
+<p>也就是希望各個在 browser 中運行的 program 可以以服務 (service) 的角度被拆分或聚合，並運行在獨立的 Process 中，Processes 間透過 IPC 來溝通，讓系統架構實現高內聚、低耦合、易擴展與易維護的特性。<br />
+而關於 SOA，相信很多讀者會聯想到 Microservices，如果想了解兩者區別的讀者可以參考這篇文章。<br />
+另外 Chrome 還提供一個我認為非常厲害又彈性的架構，我們都知道設備的性能差異是很大的，如果在低階的設備上，例如老舊的手機，這樣的瀏覽器架構似乎不是低階設備承受得起的。在遇到性能較高的設備時，Chrome 會採用上面所說拆成多個 Processes 的架構去增強穩定性與效能，但是如果是在較低階老舊的設備上運行時，Chrome 則會自動採用多個服務合併成單一 Process 的方式來節省記憶體耗費，來達到更彈性的架構。<br /></p>
+
+<blockquote>
+  <p>General idea is that when Chrome is running on powerful hardware, it may split each service into different processes giving more stability, but if it is on a resource-constraint device, Chrome consolidates services into one process saving memory footprint. — developer.google.com</p>
+</blockquote>
+
+<p>其實 Chrome 現在就已經在朝著這個方向前進了，只不過這必定是一個緩慢的過程，因此我將它放在「未來」這個時間線裡。不過值得一提的是，Chrome 的更新是漸進式的，也就是說未來服務會慢慢的改進與更新，我們將會慢慢享受到更多更新的服務，未來不管是 AR/VR、遊戲引擎，甚至是 AI，都可以在瀏覽器身上看到無限可能，身為 Web 開發者，我想這是一件會讓我們都感到期待與熱血沸騰的一件事。<br /></p>
+
+<h2 id="現今瀏覽器渲染引擎的運作機制">現今瀏覽器渲染引擎的運作機制</h2>
+
+<p>原本這篇文章應該在上面簡單介紹完瀏覽器架構演進後就該告一段落了，不過剛好在這篇文章中一直提到了 Renderer Process，它也就是你常常會聽到的「渲染引擎」，身為 Web 工程師，又甚至像我一樣是更偏向前端開發的工程師，渲染引擎想必是你最常聽到，也最在乎的一個程序，因為它負責處理頁面的渲染流程，負責將 HTML、CSS、JavaScript 三劍客變成我們看到的頁面，然而這中間發生的過程你是否都了解了呢？如果你還不是很了解也沒關係，我想藉著文章的最後一個段落（雖然應該會是最長的一個段落），簡單複習一下渲染引擎的運作機制，讓各位開發者們可以更了解網頁究竟是怎麼被顯示出來的。<br />
+（底下ㄧ樣會以 Chrome 瀏覽器作為示範）<br />
+每個 Tab 都會產生一個獨立的 Renderer Process<br />
+這點在看完上面的架構演進史後，讀者應該都能了解了，這也就是為什麼其中一個 Tab 的網頁掛掉之後，你仍然可以繼續正常使用其他 Tab 的網頁，因為不同的 Renderer Process 是不會互相影響的。讀者可以點擊 Chrome 瀏覽器的右上角，點擊「更多工具」-&gt;「工作管理員」<br /></p>
+
+<h3 id="會出現類似作業系統工作管理員的介面">會出現類似作業系統工作管理員的介面</h3>
+
+<p>在了解瀏覽器架構演進史後，看到瀏覽器運行著這麼多 Process 應該就不會被嚇到了，除了 Browser Process 以外， GPU Process、Network Process 等不同程序都可以在工作管理員看到，再來就是各個不同的 Tab 也會運行在獨立的 Renderer Process 裡。<br />
+Per-frame Renderer Processes — Site Isolation<br />
+這是 Chrome 在 2018 年左右引進的新特色，Same Origin Policy 同源政策是 web 裡一個很普遍的安全模型，理論上不同源的網站在未經授權下是要不能存取到彼此的資源的，不然會產生許多安全性問題。而要做到把兩個不同來源的網站徹底分開，獨立 Process 成為最有效率也最根本的一個方式，因此在 Chrome 中，實現了每個 Tab 都獨立一個程序的機制，甚至在網頁中嵌入不同來源的 iframe，該 iframe 也會運行在不同的 Renderer Process 上：<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*vfFQIhgox9px6rPUoj8_fA.png" alt="" /></p>
+
+<p>不過讀者要知道採用這種方式不僅僅是獨立出不同 Renderer Processes 這麼單純而已，它也徹底改變了 iframe 與網頁間的溝通方式，對於 Chrome 團隊來說絕對是一個很大的里程碑。
+不過眼尖的讀者可能會發現，有些頁面顯示為「子頁框」，並且沒有獨立的 Process ID，這是為什麼呢？<br />
+Process Per Site Instance<br />
+雖然預設狀況下，每個 Tab 都會是獨立一個 Renderer Process，不過在某些「Same Site」的狀況下，Chrome 預設會將同源的網頁運行在同一個 Process 中。這裡的 Same Site 指的是 Protocol ㄧ樣、root domain 一樣就符合了（跟一般 Same Site Cookie 或同源政策的標準都不太一樣，讀者別搞混囉，請把它們當作完全不同的觀念！），也就是說<br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>https://kylemo.com
+https://www.kylemo.com
+https://www.kylemo.com:3000
+</code></pre></div></div>
+
+<p>都會被視為 Same Site，另外還有一個條件是「必須從一個頁面打開另一個 Same Site 頁面」 ，例如透過 <a> tag 或是 window.open 等方法，瀏覽器就會將新開啟的 Same Site 頁面與原本的頁面運行在同一個 Process 中。其實仔細想想這樣的特性是合理的，畢竟有些 Same Site 的網頁，是有共享 JavaScript 執行環境的需求的，另外節省記憶體也是這個特性的優勢之一。<br /></a></p>
+
+<h2 id="渲染流程">渲染流程</h2>
+<p>Renderer Process 主要負責的就是頁面的渲染流程，這邊還是簡單說明下，在瀏覽器輸入 URL 並按下 Enter 後，搜尋列會先對輸入做解析，判斷使用者輸入的是 URL 還是搜尋關鍵字，並透過 Network Thread 或是 Network Process 去做資源請求，並根據回傳的 Content-Type 來決定下一步要交給誰做，如果是回傳的是 HTML，就會準備交由 Renderer Process 進行渲染流程。<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*57F8N58JxoDtgnaGn0neKA.png" alt="" /></p>
+
+<p>讀者可以透過 CURL 來看看 Response Header 中的 content-type<br />
+基本上如果你上網查詢瀏覽器渲染流程，應該都會看到跟下面這張差不多的圖片：<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*ex4bOPRpLwwNMmLm0v18Yg.png" alt="" /></p>
+
+<p>如果有看過我之前關於前端效能優化方式統整的文章「今晚，我想來點 Web 前端效能優化大補帖」的讀者應該會對以上流程有點印象，大致上網頁的渲染流程為：<br /></p>
+
+<ul>
+  <li>讀取 HTML 後生成 DOM Tree</li>
+  <li>讀取 HTML 中的 CSS Link Tag 生成 CSSOM Tree</li>
+  <li>DOM Tree 與 CSSOM Tree 共同生成 Render Tree</li>
+  <li>根據 Render Tree 生成 Layout Tree，負責各元素大小與位置的計算</li>
+  <li>最後 Paint 畫面</li>
+</ul>
+
+<p>但是，其實瀏覽器在 Layout 之前與 Paint 之後的過程還做了一些事。<br />
+而這些事是一般在網路查詢渲染流程時不太會被介紹到的，往往被開發者所忽略的部分，雖然主要是因為瀏覽器幫我們做好了，不知道這些事也不會影響到開發者的開發流程，不過如果對整個渲染流程有更完整的理解，一定是利大於弊的。<br /></p>
+
+<h3 id="layer-分層">Layer 分層</h3>
+<p>為了方便實現一些瀏覽器上的複雜效果例如頁面滾動或是三維空間的排序，瀏覽器會根據 Layout Tree 產生 Layer Tree<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*cwAlMho6lZ6Mycj-iFap8A.png" alt="" /></p>
+
+<p>如果使用過 Adobe Photoshop 的讀者應該都知道，我們最後產出的圖，實際上就是由許多圖層疊加在一起的，而瀏覽器上的頁面其實也是ㄧ樣的，這邊讀者還不需要去理解瀏覽器是怎麼安排哪些節點應該要變成一個獨立的圖層的，這是一個非常複雜的技術，各位讀者目前只需要知道「瀏覽器上的頁面也是由許多圖層疊加在一起的」就足夠了，如果真的有興趣了解背後機制的讀者可以再自行研究。<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*0M-n6IF38nNvztBa97yOEw.png" alt="" /></p>
+
+<p>在將頁面分層以後，就要對每個圖層進行繪製了，不過我想大部分的人都會以為真正的繪製行為就是在 Renderer Process 中的 Main Thread 執行的，不過其實這個階段做的只是「產生繪製指令」而已，所謂的繪製指令就是告訴瀏覽器在哪個座標要繪製線或是繪製幾何圖形等簡單指令的集合，後續的操操作則是會在生成繪製指令後轉交給 Renderer Process 中的另一個執行緒 — Compositor Thread 來接棒。<br /></p>
+
+<h2 id="compositing">Compositing</h2>
+<p>現在瀏覽器已經獲得了渲染頁面所需要的資訊了，例如 DOM Tree 的結構、每個節點的 Style、節點在頁面中的幾何位置，還有剛剛提到的各個圖層的繪製指令與疊加順序…等，因此已經準備好可以繪製到頁面上了。<br />
+首先讀者得先了解一個專有名詞 — rasterize 柵格化，也就是把上述頁面資訊轉變成 pixels 顯示在螢幕上。如果不考慮分層的話，最符合常理的狀況就是一次 rasterize 出現在 viewport 裡的部分，如果使用者滑動了頁面，再去 rasterize 新出現在 viewport 的部分。在舊的 Chrome 架構中的確是採用這種方式，不過隨著瀏覽器進步，現在採用的是更複雜，但是整體效能更好的流程，也就是標題的 compositing，中文可以稱作合成。<br />
+先前已經提到瀏覽器根據 Layout Tree 生成了 Layer Tree，compositing 的概念就是各個 Layer 分別做 rasterize，並在 Compositor Thread 把各個經過柵格化的圖層組合起來，此時如果有頁面滾動事件產生，因為每個 Layer 已經經過柵格化，所以要做的事就是合成一個新的 frame 就好。<br />
+不過每個 Layer 的大小不ㄧ樣，有些 layer 可能幾乎包含整個頁面的大小，會導致效能受到影響，因此 Compositor Thread 會再將一個 Layer 切分成更小的單位 — tile(柵格化的最小單位)，並把這些 tiles 送到真正負責柵格化的 raster threads，raster threads 將 tiles rasterize 後會存放到瀏覽器的 GPU 儲存空間裡。Tiles 被柵格化之後，<br />Compositor Thread 會匯集被稱作 draw quads 的資訊來產生 Compositor Frame。<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*6dleKIcII0jVrm80RouMMg.png" alt="" />
+Compositor Frame 接著會藉由 IPC 被送到 Browser Process，最後送到 GPU 去顯示到畫面上。<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*vpRqOs1dCtxluNu8aCv_Nw.png" alt="" /></p>
+
+<p>所以看到這我們應該可以把原本的渲染流程圖修改成下面這樣：<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*ZwAgbaV5mi3DmVRhiefY7A.png" alt="" /></p>
+
+<h2 id="reflow--repaint--compositing">Reflow &amp; Repaint &amp; Compositing</h2>
+
+<p>最後來談談頁面更新造成的 Reflow 回流、Repaint 重繪與 Compositing 合成，這是三個與頁面效能高度相關的概念。<br /></p>
+<h3 id="reflow-回流">Reflow 回流</h3>
+<p>指的是瀏覽器為了重新渲染部分或全部的 document 而重新計算 Render Tree 中元素的物理屬性，如位置、大小的過程。<br />
+觸發條件為改變一些元素的幾何樣式，例如 height、width、margin 或是排列的方式等等。<br /></p>
+<h3 id="repaint-重繪">Repaint 重繪</h3>
+<p>將計算結果轉為實際的像素，畫到畫面上。<br />
+如果只改動元素的顏色、背景圖等不需要重新計算頁面元素 layout 的樣式，就只會從 Repaint 開始觸發，跳過 Reflow 的步驟，最後再到合成階段。<br /></p>
+<h3 id="composition-合成">Composition 合成</h3>
+<p>也就是剛剛提到的合成。<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*AFOOcrE0IOgkdRAOjiow8g.png" alt="" />
+頁面更新簡易流程<br /></p>
+
+<p>這邊需要了解的是，如果觸發了渲染流程的某個階段，那麼其之後的階段就也會被觸發。透過文章前面的渲染流程內容，我們大致可以推斷出，Reflow 跟 Repaint 分別會觸發渲染流程中的哪些步驟<br /></p>
+
+<p>(圖片的部分因為是自己畫的，很醜我先道歉QQ)<br />
+了解這些以後，應該可以發現，不同的改變樣式的方式，是會觸發不同渲染流程的，因此也是效能優化的一個方向：<br /></p>
+<h3 id="1-改變一些-layout-相關屬性">1. 改變一些 Layout 相關屬性<br /></h3>
+<p><img src="https://miro.medium.com/max/700/1*WvuD9L5xYQo84gLFBAW0WQ.png" alt="" /></p>
+
+<p>例如 width、height、position 的 left 或 top 等，瀏覽器會需要重新計算頁面元素的 layout，因此渲染流程沒有步驟可以被省略，Reflow、Repaint、Compositing 都會被觸發。<br /></p>
+<h3 id="2-只改變一些paint-only的屬性">2. 只改變一些「paint only」的屬性<br /></h3>
+<p><img src="https://miro.medium.com/max/700/1*MV1SQJw7WqhXT6fta590zw.png" alt="" /></p>
+
+<p>例如背景圖片、字體顏色等不需要重新計算 layout 的屬性，Reflow 就不會被觸發，Layout 會被跳過，只會觸發 Repaint 之後的流程。<br /></p>
+<h3 id="3-compositing-only">3. Compositing Only</h3>
+<p>也就是更改一些不需要 Reflow 與不需要 Repaint 的屬性，例如 CSS 的<br /></p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>transform: translate(xxx, yyy);
+</code></pre></div></div>
+
+<p>這種改變方式是效率最好的，除了因為它不需要經過 Reflow 與 Repaint ，只需要做合成以外，還有一個重點是「合成的運作不是在 Main Thread 進行的，而是在 Compositor Thread 與 Raster Thread，因此不會佔用 Main Thread 資源」，這也是為什麼要做 CSS 動畫會建議使用 transform 的原因。<br /></p>
+
+<p><img src="https://miro.medium.com/max/700/1*EDEOzsebT3qXabY6i4KKTw.png" alt="" />
+很醜，再次道歉QQ<br /></p>
+
+<p>如何避免多餘的 Reflow 與 Repaint？<br />
+避免用多個 statement 修改 style，建議使用新增或移除 class 的方式。<br />
+先一次讀取完，再一起修改<br />
+<img src="https://miro.medium.com/max/700/1*-qq29BNULK1pljvETfXv7Q.png" alt="" /></p>
+
+<p>從上圖範例可以看到 read 一次就馬上 write 一次的寫法會造成 6 次 Reflow，然而<br />
+<img src="https://miro.medium.com/max/700/1*9lIC33O9tb5ha6Gq9ukPIQ.png" alt="" /></p>
+
+<p>這種一次 read 完全部再 write 全部的寫法卻只會造成 1 次 Reflow，在複雜的應用中也許兩種方式會造成頁面效能產生很大的差異，而背後原因則跟瀏覽器更深入的運作機制有關，這邊就不多加探討。<br /></p>
+
+<p>其實優化 Reflow 與 Repaint 的方式還有許多，有興趣的讀者可以參考這裡，也可以在這裡看到各種 CSS 屬性改變會觸發的渲染階段。<br />
+Reflow、Repaint 與Compositing 的簡單介紹就到這裡。其實上面說的這些也只是基礎中的基礎，可見寫 CSS 也是水很深的一門學問啊，如果想知道怎麼好好掌握 Reflow、Repaint、Compositing，來避免寫出消耗渲染性能的程式碼，建議讀者參考這篇文章。<br /></p>
+
+<h2 id="結語">結語</h2>
+<p>李開復曾說過：「瀏覽器就是未來的作業系統。」這句話曾引起了廣泛的討論，持正反意見的人都有，雖然現在看下來，要取代作業系統有一定的難度，不過可以肯定的是，瀏覽器只會越變越強，能在瀏覽器上做的事只會越來越多，並且執行效能只會愈來越好。身為一個需要與瀏覽器共舞 Web 開發者，除了要知道瀏覽器越變越厲害以外，也該知道它進步的原因，背後的架構是怎麼演進的，還有它在短時間的未來可能會成長成什麼樣子，才能好好的擁抱這波技術大躍進，發展更多的可能性。希望這篇文章可以使讀者對於瀏覽器有更深的理解，也激發出對它的興趣。<br /></p>
+
+<h3 id="references">References</h3>
+<p>Inside look at modern web browser (Part 1, 2, 3, 4)<br />
+浏览器工作原理与实践<br />
+Chrome Site Isolation<br />
+Rendering Performance<br />
+Reflow 和 Repaint 引發的性能問題<br />
+DOM Performance<br /></p>
+
+  
+</article>
+
+
+<!--  -->
+<section id="clapper" class="mb6">
+    <applause-button style="margin: 0 auto;width: 120px; height: 120px" color="rgb(17, 128, 127)"></applause-button>
+</section>
+  
+  
+    <p class="message centered border-radius" >
+      <span style="display:block;margin-bottom:.5rem;">喜歡就給個鼓勵！ <br> A clap is much appreciated if you enjoyed. No sign up or cost associated :)</span>
+    </p>
+  
+
+
+
+
+
+
+  
+     
+
+
+  <aside class="about related mt4 mb4" role="complementary">
+    
+    
+
+<div class="author mt4">
+  
+
+  
+    
+
+
+<img
+  
+    src="/blog/assets/img/avatar.jpg"
+    srcset="/blog/assets/img/avatar.jpg 1x,/blog/assets/img/avatar.jpg 2x"
+    
+  
+  alt="Darren Tu"
+  class="avatar"
+  
+  width="120"
+  height="120"
+  loading="lazy"
+/>
+
+  
+
+  
+  
+  <h2  class="page-title hr-bottom">
+    About Author
+  </h2>
+
+  <ol>
+  <li>9年的網站開發經驗，擅長產品開發、UIUX介面。</li>
+  <li>電子商務、媒體健康類網頁APP開發。</li>
+  <li>與產品團隊、設計團隊密切合作良好溝通協調能力。</li>
+  <li>熟練 MVC / MVVM Pattern 前後分離架構。</li>
+  <li>Sass / SCSS 模組化，npm/webpack 等構建工具，Git 協同開發流程。</li>
+  <li>分析客戶數據，市場信息和競爭製定營銷策略。</li>
+</ol>
+
+
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://gitlab.com/darrentu88" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:darrentu8@gmail.com" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://www.instagram.com/tu_d/" title="Instagram" class="no-mark-external">
+      <span class="icon-instagram"></span>
+      <span class="sr-only">Instagram</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+
+  </aside>
+
+
+  
+
+  
+  
+
+  
+    
+
+
+  <aside class="related mb4" role="complementary">  <h2 class="hr-bottom">Related Posts</h2>  <ul class="related-posts">                  <li class="h4">  <a href="/blog/blog/2018-08-05-blog-google-sheet/" class="flip-title"><span>利用Google Sheet 當你的簡易表單資料庫！</span></a>  <time class="faded fine" datetime="2018-08-05T00:00:00+08:00">05 Aug 2018</time></li>                        <li class="h4">  <a href="/blog/blog/2018-06-01-blog-F2E/" class="flip-title"><span>Frontend ? Backend ? 如何選擇？</span></a>  <time class="faded fine" datetime="2018-06-01T00:00:00+08:00">01 Jun 2018</time></li>            </ul></aside>
+
+  
+
+  
+  
+
+  
+    
+
+  
+
+
+  
+<footer class="content" role="contentinfo">
+  <hr/>
+  
+    <p><small class="copyright">© 2021. All rights reserved.
+</small></p>
+  
+  <!-- 
+    <p><small>Powered by <a class="external" href="https://hydejack.com/">Hydejack</a> v<span id="_version">9.1.4</span></small></p> -->
+  <hr class="sr-only"/>
+</footer>
+
+
+</main>
+
+  <hy-drawer
+  id="_drawer"
+  class=""
+  side="left"
+  threshold="10"
+  noscroll
+  
+>
+  <header id="_sidebar" class="sidebar" role="banner">
+    
+
+
+
+
+<div class="sidebar-bg " style="background:url('https://www.pbs.org/wgbh/nova/media/images/bfcppfu.width-800.png') center/cover"></div>
+
+    <div class="sidebar-sticky">
+  <div class="sidebar-about">
+    
+      <a class="no-hover" href="/blog/" tabindex="-1">
+        <img src="/blog/assets/img/logo.png" class="avatar" alt="Darren" width="120" height="120" loading="lazy" />
+      </a>
+    
+    <a class="sidebar-title" href="/blog/"><h2 class="h1">Darren</h2></a>
+    
+    
+      <p class="">
+        A blog, portfolio, and resume.
+
+      </p>
+    
+  </div>
+
+  <nav class="sidebar-nav heading" role="navigation">
+    <span class="sr-only">Navigation:</span>
+<ul>
+  
+    
+      
+      <li>
+        <a
+          id="_drawer--opened"
+          href="/blog/"
+          class="sidebar-nav-item "
+          
+        >
+          Blog
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/blog/showcase/"
+          class="sidebar-nav-item "
+          
+        >
+          Showcase
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/blog/about/"
+          class="sidebar-nav-item "
+          
+        >
+          About Me
+        </a>
+      </li>
+    
+      
+      <li>
+        <a
+          
+          href="/blog/resume/"
+          class="sidebar-nav-item "
+          
+        >
+          Resume
+        </a>
+      </li>
+    
+  
+</ul>
+
+  </nav>
+
+  
+  <div class="sidebar-social">
+    <span class="sr-only">Social:</span>
+<ul>
+  
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://gitlab.com/darrentu88" title="GitHub" class="no-mark-external">
+      <span class="icon-github"></span>
+      <span class="sr-only">GitHub</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="mailto:darrentu8@gmail.com" title="Email" class="no-mark-external">
+      <span class="icon-mail"></span>
+      <span class="sr-only">Email</span>
+    </a>
+  </li>
+
+
+    
+      
+
+
+
+  
+
+  
+  
+  
+  
+
+  
+
+  
+
+  <li>
+    <a href="https://www.instagram.com/tu_d/" title="Instagram" class="no-mark-external">
+      <span class="icon-instagram"></span>
+      <span class="sr-only">Instagram</span>
+    </a>
+  </li>
+
+
+    
+  
+</ul>
+
+  </div>
+</div>
+  </header>
+</hy-drawer>
+<hr class="sr-only" hidden />
+
+</hy-push-state>
+
+
+  <!--[if gt IE 10]><!---->
+  <script nomodule>!function(){var t,n=document.createElement("script");!("noModule"in n)&&"onbeforeload"in n&&(t=!1,document.addEventListener("beforeload",function(e){if(e.target===n)t=!0;else if(!e.target.hasAttribute("nomodule")||!t)return;e.preventDefault()},!0),n.type="module",n.src=".",document.head.appendChild(n),n.remove())}();
+</script>
+  <script src="/blog/assets/js/hydejack-9.1.4.js" type="module"></script>
+  <script src="/blog/assets/js/LEGACY-hydejack-9.1.4.js" nomodule defer></script>
+  <script src="https://unpkg.com/applause-button/dist/applause-button.js"></script>
+  
+
+  
+
+<!--<![endif]-->
+  <!-- <script>
+  document.querySelector('hy-push-state').setAttribute('prefetch', '');
+
+  document.querySelectorAll('.sidebar a[href^="/"]').forEach(function (el) { 
+    el.addEventListener('click', function (e) {
+      if (el.pathname === window.location.pathname) {
+        e.preventDefault();
+        e.stopPropagation();
+        document.querySelector('hy-drawer').close();
+      }
+    });
+  });
+</script> -->
+
+<!--
+Code for integrating CloudFlare's email protection with Hydejack's single page app loading.
+-->
+<script>
+  document.getElementById('_pushState').addEventListener('hy-push-state-after', function (e) {
+    function e(e){
+      (console.error?console.error:console.log).call(console,e)
+    }
+
+    function t(e){
+      return l.innerHTML='<a href="'+e.replace(/"/g,"&quot;")+'"></a>',l.childNodes[0].getAttribute("href")
+    }
+
+    function r(e,t){
+      var r=e.substr(t,2);return parseInt(r,16)
+    }
+
+    function n(e,n){
+      for(var o="",c=r(e,n),a=n+2;a<e.length;a+=2){
+        var l=r(e,a)^c;
+        o+=String.fromCharCode(l)
+      }
+      return t(o)
+    }
+
+    var o="/cdn-cgi/l/email-protection#",
+        c=".__cf_email__",
+        a="data-cfemail",
+        l=document.createElement("div");
+
+    !function(){
+      for(var t=document.getElementsByTagName("a"),r=0;r<t.length;r++)
+        try{
+          var c=t[r],a=c.href.indexOf(o);
+          a>-1&&(c.href="mailto:"+n(c.href,a+o.length))
+        }catch(t){
+          e(t)
+        }
+    }(),
+    function(){
+      for(var t=document.querySelectorAll(c),r=0;r<t.length;r++)
+        try{
+          var o=t[r],l=n(o.getAttribute(a),0),i=document.createTextNode(l);
+          o.parentNode.replaceChild(i,o)
+        }catch(t){
+          e(t)
+        }
+    }()
+  });
+</script>
+
+
+
+
+
+<div hidden>
+  
+  <h2 class="sr-only">Templates (for web app):</h2>
+
+  <clap-config>
+    <clap-text at="1">Keep going!</clap-text>
+    <clap-text at="2">Keep going ×2!</clap-text>
+    <clap-text at="3">Give me more!</clap-text>
+    <clap-text at="5">Thank you, thank you</clap-text>
+    <clap-text at="7">Far too kind!</clap-text>
+    <clap-text at="10">Never gonna give me up?</clap-text>
+    <clap-text at="14">Never gonna let me down?</clap-text>
+    <clap-text at="20">Turn around and desert me!</clap-text>
+    <clap-text at="30">You're an addict!</clap-text>
+    <clap-text at="40">Son of a clapper!</clap-text>
+    <clap-text at="50">No way</clap-text>
+    <clap-text at="60">Go back to work!</clap-text>
+    <clap-text at="70">This is getting out of <em>hand</em></clap-text>
+    <clap-text at="80">Unbelievable</clap-text>
+    <clap-text at="90">PREPOSTEROUS</clap-text>
+    <clap-text at="100">I N S A N I T Y</clap-text>
+    <clap-text at="185"><span style="font-family:monospace">FEED ME A STRAY CAT</span></clap-text>
+  </clap-config>
+
+  <template id="_animation-template">
+  <div class="animation-main fixed-top">
+    <nav id="breadcrumbs" class="screen-only"><ul>
+  
+  
+</ul></nav>
+    <div class="content">
+      <div class="page"></div>
+    </div>
+  </div>
+</template>
+
+  <template id="_loading-template">
+  <div class="loading nav-btn fr">
+    <span class="sr-only">Loading…</span>
+    <span class="icon-cog"></span>
+  </div>
+</template>
+
+  <template id="_error-template">
+  <div class="page">
+    <h1 class="page-title">Error</h1>
+    
+    
+    <p class="lead">
+      Sorry, an error occurred while loading <a class="this-link" href=""></a>.
+
+    </p>
+  </div>
+</template>
+
+  <template id="_permalink-template">
+  <a href="#" class="permalink">
+    <span class="sr-only">Permalink</span>
+    <span class="content-hash"></span>
+  </a>
+</template>
+
+</div>
+
+
+</body>
+</html>
