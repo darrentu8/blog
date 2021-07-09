@@ -7,7 +7,7 @@ author1:
 
   # Used at the bottom of each page and at the top of the `about` layout
   # Markdown enabled, can use multiple paragraphs (enabled by `|`)
-  about:             |
+  about:             |  
     1. 9年的網站開發經驗，擅長產品開發、UIUX介面。
     2. 電子商務、媒體健康類網頁APP開發。
     3. 與產品團隊、設計團隊密切合作良好溝通協調能力。
@@ -28,11 +28,11 @@ author1:
   # Comment/uncommet to show/hide
   # Rearrange to change the order in which they appear
   social:
-    twitter:         <username>
-    github:          <username>
-    email:           <mail@domain.tld>
+    # twitter:         <username>
+    github:          https://gitlab.com/darrentu88
+    email:           darrentu8@gmail.com
     # rss:             https://<url>/feed.xml
-    # facebook:        <username>
+    # facebook:      https://www.facebook.com/profile.php?id=100006758357793
     # google:          <number>
     # vk:              <username>
     # youtube:         <string_string_string>
@@ -41,7 +41,7 @@ author1:
     # spotify:         <user>/<number>
     # soundcloud:      <username>
     # lastfm:          <username>
-    # instagram:       <username>
+    instagram:       https://www.instagram.com/tu_d/
     # flickr:          <string@string>
     # 500px:           <username>
     # dribbble:        <username>

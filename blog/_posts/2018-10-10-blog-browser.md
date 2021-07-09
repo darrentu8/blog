@@ -3,7 +3,7 @@ layout: post
 title: web工程師應該要知道瀏覽器架構演變及渲染機制
 image: https://img.technews.tw/wp-content/uploads/2017/12/29164436/browsers-1265309_1280.png
 accent_image: 
-  background: url('https://cdn.unwire.hk/wp-content/uploads/2020/01/Screenshot-2020-01-16-at-7.32.43-PM.png') center/cover
+  background: url('https://www.pbs.org/wgbh/nova/media/images/bfcppfu.width-800.png') center/cover
   overlay: false
 accent_color: '#ccc'
 theme_color: '#ccc'
