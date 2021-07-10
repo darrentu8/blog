@@ -1,0 +1,13 @@
+<!-- {% if site.clap_button or jekyll.environment != 'production' %} -->
+<section id="clapper" class="mb6">
+    <applause-button style="margin: 0 auto;width: 120px; height: 120px" color="rgb(17, 128, 127)"></applause-button>
+</section>
+  {% if include.hidden == true %}<hr class="dingbat related mb6" />{% endif %}
+  {% unless site.clap_button %}
+    <p class="message centered border-radius" {% if include.hidden == true %}hidden{% endif %}>
+      <span style="display:block;margin-bottom:.5rem;">喜歡就給個鼓勵！ <br> A clap is much appreciated if you enjoyed. No sign up or cost associated :)</span>
+    </p>
+  {% endunless %}
+{% else %}
+  <hr class="dingbat related mb6" />
+{% endif %}
